@@ -1,0 +1,37 @@
+/* Основной стиль для навигации */
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    position: relative;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  /* Стиль для каждой ссылки */
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: color 0.3s ease; /* Анимация изменения цвета */
+  }
+  
+  /* Подсветка при наведении */
+  .nav-link:hover {
+    color: #ffd700; /* Цвет при наведении */
+  }
+  
+  /* Индикатор подсветки */
+  .nav-indicator {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    background-color: #ffd700;
+    z-index: 1;
+    transition: left 0.3s ease, width 0.3s ease; /* Плавные анимации */
+  }
+  
