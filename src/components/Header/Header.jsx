@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import './Header.css';
 
@@ -13,8 +13,8 @@ const Navbar = () => {
     '/register': React.createRef(),
   };
 
-  // Функция для вычисления стилей индикатора
-  const updateIndicator = () => {
+  // Мемоизация функции для вычисления стилей индикатора
+  const updateIndicator = useCallback(() => {
     const activeLink = linksRef[location.pathname];
     if (activeLink && activeLink.current) {
       const { offsetLeft, offsetWidth } = activeLink.current;
@@ -23,11 +23,11 @@ const Navbar = () => {
         width: offsetWidth,
       });
     }
-  };
+  }, [location.pathname, linksRef]);
 
   useEffect(() => {
     updateIndicator(); // Обновить индикатор при монтировании
-  }, [location.pathname]);
+  }, [updateIndicator]);
 
   return (
     <nav className="navbar">
@@ -65,10 +65,11 @@ const Navbar = () => {
         className="nav-link"
         ref={linksRef['/register']}
       >
-        Register
+           Register
       </NavLink>
     </nav>
   );
 };
 
 export default Navbar;
+  
