@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import './Header.css';
 
@@ -6,7 +6,6 @@ const Navbar = () => {
   const location = useLocation();
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
 
-  // Используем useMemo для мемоизации объекта linksRef
   const linksRef = useMemo(() => ({
     '/': React.createRef(),
     '/machines': React.createRef(),
@@ -14,8 +13,8 @@ const Navbar = () => {
     '/register': React.createRef(),
   }), []);
 
-  // Функция для вычисления стилей индикатора
-  const updateIndicator = () => {
+  // Оборачиваем updateIndicator в useCallback
+  const updateIndicator = useCallback(() => {
     const activeLink = linksRef[location.pathname];
     if (activeLink && activeLink.current) {
       const { offsetLeft, offsetWidth } = activeLink.current;
@@ -24,11 +23,11 @@ const Navbar = () => {
         width: offsetWidth,
       });
     }
-  };
+  }, [location.pathname, linksRef]); // Зависимости
 
   useEffect(() => {
-    updateIndicator(); // Обновить индикатор при монтировании
-  }, [location.pathname, linksRef]); // Добавляем linksRef в зависимости
+    updateIndicator(); // Обновить индикатор при изменении пути
+  }, [updateIndicator]);
 
   return (
     <nav className="navbar">
